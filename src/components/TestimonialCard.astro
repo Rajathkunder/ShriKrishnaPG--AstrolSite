@@ -1,5 +1,5 @@
 ---
-import { Image } from '@astrojs/image';
+
 const { name, role, rating, review, photo, index } = Astro.props;
 
 const stars = Array(5).fill(0).map((_, i) => i < rating ? '★' : '☆');
