@@ -1,0 +1,108 @@
+---
+import { Image } from '@astrojs/image';
+
+const heroData = [
+  {
+    image: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1920&h=1080&fit=crop',
+    title: 'Welcome to Sri Krishna Boy\'s PG',
+    subtitle: 'Your Perfect Home Away From Home',
+    features: 'Affordable • Comfortable • Safe • Modern'
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=1920&h=1080&fit=crop',
+    title: 'Premium Accommodation',
+    subtitle: 'Fully Furnished Rooms with Modern Amenities',
+    features: 'Non-AC Rooms • WiFi • Security'
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1920&h=1080&fit=crop',
+    title: 'Delicious Home-Style Food',
+    subtitle: 'Healthy & Nutritious Meals Every Day',
+    features: 'Breakfast • Lunch • Dinner • Snacks'
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&h=1080&fit=crop',
+    title: 'Two Convenient Locations',
+    subtitle: 'Syndicate circle & Coin circle',
+    features: 'Hospital and college Connectivity • Parks • Shopping'
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1920&h=1080&fit=crop',
+    title: 'Community Living',
+    subtitle: 'Make Friends & Build Connections',
+    features: 'Common Areas • Events • Networking'
+  }
+];
+---
+
+<section id="hero" class="hero-bg relative h-screen flex items-center justify-center text-white" style={`background-image: url(${heroData[0].image})`}>
+  <div class="text-overlay rounded-2xl p-8 max-w-4xl mx-4 text-center">
+    <div id="hero-content">
+      <h2 class="text-4xl md:text-6xl font-bold mb-6 animate-fadeIn">{heroData[0].title}</h2>
+      <p class="text-xl md:text-2xl mb-8 animate-slideUp">{heroData[0].subtitle}</p>
+      <p class="text-lg md:text-xl mb-8 animate-slideUp">{heroData[0].features}</p>
+      <button class="bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-full text-lg font-semibold transition-all transform hover:scale-105 animate-slideUp floating-element">
+        Book Your Stay Today
+      </button>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const heroData = [
+      {
+        image: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1920&h=1080&fit=crop',
+        title: 'Welcome to Sri Krishna Boy\'s PG',
+        subtitle: 'Your Perfect Home Away From Home',
+        features: 'Affordable • Comfortable • Safe • Modern'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=1920&h=1080&fit=crop',
+        title: 'Premium Accommodation',
+        subtitle: 'Fully Furnished Rooms with Modern Amenities',
+        features: 'AC Rooms • WiFi • Laundry • Security'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1920&h=1080&fit=crop',
+        title: 'Delicious Home-Style Food',
+        subtitle: 'Healthy & Nutritious Meals Every Day',
+        features: 'Breakfast • Lunch • Dinner • Snacks'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&h=1080&fit=crop',
+        title: 'Two Convenient Locations',
+        subtitle: 'Koramangala & BTM Layout',
+        features: 'Metro Connectivity • IT Parks • Shopping'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1920&h=1080&fit=crop',
+        title: 'Community Living',
+        subtitle: 'Make Friends & Build Connections',
+        features: 'Common Areas • Events • Networking'
+      }
+    ];
+
+    let currentIndex = 0;
+    const heroSection = document.getElementById('hero');
+    const heroContent = document.getElementById('hero-content');
+
+    function updateHeroContent() {
+      const data = heroData[currentIndex];
+      heroSection.style.backgroundImage = `url(${data.image})`;
+      heroContent.innerHTML = `
+        <h2 class="text-4xl md:text-6xl font-bold mb-6 animate-fadeIn">${data.title}</h2>
+        <p class="text-xl md:text-2xl mb-8 animate-slideUp">${data.subtitle}</p>
+        <p class="text-lg md:text-xl mb-8 animate-slideUp">${data.features}</p>
+        <button class="bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-full text-lg font-semibold transition-all transform hover:scale-105 animate-slideUp floating-element">
+          Book Your Stay Today
+        </button>
+      `;
+    }
+
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % heroData.length;
+      updateHeroContent();
+    }, 4000);
+  });
+</script>

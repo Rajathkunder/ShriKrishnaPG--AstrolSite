@@ -1,11 +1,26 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import FoodMenu from '../components/FoodMenu.astro';
+import Rooms from '../components/Rooms.astro';
+import Locations from '../components/Locations.astro';
+import Owner from '../components/Owner.astro';
+import Testimonials from '../components/Testimonials.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const title = "Sri Krishna Boy's PG - Premium Boys Hostel Accommodation in Multiple Locations";
+const description = "Sri Krishna Boy's PG offers premium boys hostel accommodation with modern amenities, delicious food, and 24/7 security. Located in convenient locations with affordable pricing.";
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={title} description={description}>
+  <Hero />
+  
+
+  <Services />
+    <FoodMenu />
+ <Rooms />
+   <Locations />
+  <Owner />
+ <Testimonials />
+
 </Layout>

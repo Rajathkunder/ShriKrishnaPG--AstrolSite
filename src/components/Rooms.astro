@@ -1,0 +1,106 @@
+---
+import { Image } from '@astrojs/image';
+import RoomCard from './RoomCard.astro';
+
+const rooms = [
+ 
+  {
+    id: 'double-room-slider',
+    title: "👥 Double Sharing Room",
+    description: "Spacious room for two with individual beds, storage space, study area, and common bathroom facilities.",
+    originalPrice: "₹6,500",
+    discountedPrice: "₹6,000/month",
+    
+    images: [
+      "/images/ds1.webp",
+       "/images/ds2.webp",
+      
+    ]
+  },
+  {
+    id: 'triple-room-slider',
+    title: "👥👥 Triple Sharing Room",
+    description: "Budget-friendly option with three beds, shared facilities, and study area. Perfect for students.",
+    originalPrice: "₹6,000",
+    discountedPrice: "₹5,550/month",
+
+    images: [
+       "/images/ts1.webp",
+
+         "/images/ts2.webp",
+    ]
+  },
+   {
+    id: 'single-room-slider',
+    title: "🛏️ Multiple Sharing Room",
+    description: "Budget-friendly option with Multiple beds, shared facilities, and study area. Perfect for students.",
+    originalPrice: "₹6,000",
+    discountedPrice: "₹5,000/month",
+   
+    images: [
+      "/images/ms1.webp",
+       "/images/ms2.webp",
+    ]
+  }
+];
+---
+
+<section id="rooms" class="py-16 px-4 max-w-6xl mx-auto">
+  <div class="text-center mb-12">
+    <h3 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Comfortable Rooms</h3>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Choose from our variety of well-furnished rooms designed for your comfort and convenience</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {rooms.map(room => (
+      <RoomCard 
+        id={room.id}
+        title={room.title}
+        description={room.description}
+        originalPrice={room.originalPrice}
+        discountedPrice={room.discountedPrice}
+       
+        images={room.images}
+      />
+    ))}
+  </div>
+</section>
+
+<script is:inline>
+  // Image slider functionality
+  const sliderStates = {};
+
+  function initializeSlider(sliderId) {
+    if (!sliderStates[sliderId]) {
+      sliderStates[sliderId] = { currentIndex: 0 };
+    }
+  }
+
+  function nextImage(sliderId) {
+    initializeSlider(sliderId);
+    const slider = document.getElementById(sliderId);
+    const images = slider.children;
+    const totalImages = images.length;
+    
+    sliderStates[sliderId].currentIndex = (sliderStates[sliderId].currentIndex + 1) % totalImages;
+    const translateX = -sliderStates[sliderId].currentIndex * 100;
+    slider.style.transform = `translateX(${translateX}%)`;
+  }
+
+  function previousImage(sliderId) {
+    initializeSlider(sliderId);
+    const slider = document.getElementById(sliderId);
+    const images = slider.children;
+    const totalImages = images.length;
+    
+    sliderStates[sliderId].currentIndex = (sliderStates[sliderId].currentIndex - 1 + totalImages) % totalImages;
+    const translateX = -sliderStates[sliderId].currentIndex * 100;
+    slider.style.transform = `translateX(${translateX}%)`;
+  }
+
+  // Auto-advance image sliders
+  setInterval(() => {
+    ['single-room-slider', 'double-room-slider', 'triple-room-slider'].forEach(sliderId => {
+      nextImage(sliderId);
+    });
+  }, 5000);
+</script>

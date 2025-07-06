@@ -1,0 +1,70 @@
+---
+import TestimonialCard from './TestimonialCard.astro';
+
+const testimonials = [
+  {
+    name: "Amit Sharma",
+    role: "Software Engineer",
+    rating: 5,
+    review: "Excellent facilities and very homely environment. The food quality is outstanding and the owner is very supportive. I've been staying here for 2 years and it feels like home.",
+    photo: "/images/usericon.webp"
+  },
+  {
+    name: "Priya Raj",
+    role: "MBA Student",
+    rating: 5,
+    review: "Perfect location with great connectivity. The rooms are well-maintained and the security is top-notch. The WiFi speed is amazing for online classes and work.",
+   photo: "/images/usericon.webp"
+  },
+  {
+    name: "Karthik Reddy",
+    role: "Data Analyst",
+    rating: 4,
+    review: "Great value for money! The common areas are spacious and clean. The laundry service is very convenient. Only minor suggestion would be to add more parking spaces.",
+ photo: "/images/usericon.webp"
+  },
+  {
+    name: "Suresh Kumar",
+    role: "Marketing Executive",
+    rating: 5,
+    review: "The best PG I've ever stayed in! Mr. Rajesh is very caring and responsive to all our needs. The food reminds me of home cooking. Highly recommended!",
+   photo: "/images/usericon.webp"
+  },
+  {
+    name: "Vikram Singh",
+    role: "Graphic Designer",
+    rating: 5,
+    review: "Clean rooms, friendly environment, and excellent amenities. The 24/7 security gives peace of mind. The study areas are perfect for focused work sessions.",
+  photo: "/images/usericon.webp"
+  },
+  {
+    name: "Rahul Mehta",
+    role: "CA Student",
+    rating: 4,
+    review: "Good facilities at reasonable prices. The power backup is reliable and the water supply is consistent. The community feeling among residents is great.",
+ photo: "/images/usericon.webp"
+  }
+];
+---
+
+<section id="testimonials" class="py-16 px-4 gradient-bg">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <h3 class="text-3xl md:text-4xl font-bold text-white mb-4">What Our Residents Say</h3>
+      <p class="text-lg text-white max-w-2xl mx-auto">Read genuine reviews from our satisfied residents who have made Sri Krishna Boy's PG their home</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {testimonials.map((testimonial, index) => (
+        <TestimonialCard 
+          name={testimonial.name}
+          role={testimonial.role}
+          rating={testimonial.rating}
+          review={testimonial.review}
+          photo={testimonial.photo}
+          index={index}
+        />
+      ))}
+    </div>
+  </div>
+</section>

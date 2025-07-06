@@ -1,0 +1,72 @@
+---
+import ServiceCard from './ServiceCard.astro';
+
+const services = [
+  {
+    title: "High-Speed WiFi",
+    description: "24x7 unlimited internet access for all residents",
+    icon: "📶",
+    image: "/images/wifi.webp"
+  },
+  {
+    title: "Washing Machine",
+    description: "On-site washing machine and Drying facilities",
+    icon: "👕",
+    image: "/images/washing.webp"
+  },
+  {
+    title: "Daily Cleaning",
+    description: "Professional housekeeping for rooms and common areas",
+    icon: "🧹",
+    image: "/images/cleaning.webp"
+  },
+  {
+    title: "24/7 Security",
+    description: "CCTV monitoring and secure entry systems",
+    icon: "🔒",
+    image: "/images/cctv.webp"
+  },
+  {
+    title: "Power Backup",
+    description: "Uninterrupted power supply with backup UPS",
+    icon: "⚡",
+    image: "/images/power.webp"
+  },
+  {
+    title: "24/7 Water Supply",
+    description: "Hot and cold water available round the clock",
+    icon: "💧",
+    image: "/images/water.webp"
+  },
+  {
+    title: "Parking Space",
+    description: "Secure parking for bikes and cars",
+    icon: "🚗",
+    image: "/images/parking.webp"
+  },
+  {
+    title: "Common Area",
+    description: "Spacious lounge area for relaxation and socializing",
+    icon: "🛋️",
+    image: "/images/common-area.webp"
+  }
+];
+---
+
+<section id="services" class="py-16 px-4 max-w-6xl mx-auto">
+  <div class="text-center mb-12">
+    <h3 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Premium Services</h3>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Experience comfort and convenience with our comprehensive range of services designed for modern living</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    {services.map((service, index) => (
+      <ServiceCard 
+        title={service.title}
+        description={service.description}
+        icon={service.icon}
+        image={service.image}
+        index={index}
+      />
+    ))}
+  </div>
+</section>

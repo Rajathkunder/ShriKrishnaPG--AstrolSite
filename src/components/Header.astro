@@ -1,0 +1,119 @@
+---
+import { Image } from '@astrojs/image';
+const navLinks = [
+  { href: "#home", text: "Home" },
+  { href: "#about", text: "About" },
+  { href: "#services", text: "Services" },
+  { href: "#residency", text: "Residency" },
+  { href: "#contact", text: "Contact" },
+];
+---
+
+<header class="bg-white shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center">
+       <div class="flex flex-col">
+        <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        Shri Krishna Boys PG
+      </h1>
+      <p class="text-xs font-medium text-gray-500 mt-[-4px] tracking-wider">
+        MANIPAL
+      </p>
+      </div>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex space-x-8">
+        {navLinks.map(link => (
+          <a 
+            href={link.href} 
+            class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium"
+          >
+            {link.text}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Mobile menu button -->
+      <div class="md:hidden flex items-center">
+        <button 
+          id="mobile-menu-button"
+          class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Open main menu</span>
+          <!-- Hamburger icon -->
+          <svg 
+            id="menu-icon"
+            class="block h-6 w-6" 
+            xmlns="http://www.w3.org/2000/svg" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <!-- Close icon (hidden by default) -->
+          <svg 
+            id="close-icon"
+            class="hidden h-6 w-6" 
+            xmlns="http://www.w3.org/2000/svg" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu (hidden by default) -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      {navLinks.map(link => (
+        <a 
+          href={link.href} 
+          class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium"
+          onclick="closeMobileMenu()"
+        >
+          {link.text}
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  function toggleMobileMenu() {
+    const isOpen = mobileMenu.classList.toggle('hidden');
+    menuIcon.classList.toggle('hidden');
+    closeIcon.classList.toggle('hidden');
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+  }
+
+  function closeMobileMenu() {
+    mobileMenu.classList.add('hidden');
+    menuIcon.classList.remove('hidden');
+    closeIcon.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  mobileMenuButton.addEventListener('click', toggleMobileMenu);
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (event) => {
+    const isClickInside = mobileMenu.contains(event.target) || mobileMenuButton.contains(event.target);
+    if (!isClickInside && !mobileMenu.classList.contains('hidden')) {
+      closeMobileMenu();
+    }
+  });
+</script>

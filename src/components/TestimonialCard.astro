@@ -1,0 +1,28 @@
+---
+import { Image } from '@astrojs/image';
+const { name, role, rating, review, photo, index } = Astro.props;
+
+const stars = Array(5).fill(0).map((_, i) => i < rating ? '★' : '☆');
+---
+
+<div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 animate-on-scroll">
+  <div class="flex items-center mb-4">
+    <image 
+      src={photo}
+      alt={name}
+      width={60}
+      height={60}
+      class="w-12 h-12 rounded-full mr-4"
+      formats={['avif', 'webp']}
+      loading={index < 3 ? 'eager' : 'lazy'}
+    />
+    <div>
+      <h5 class="font-semibold text-gray-800">{name}</h5>
+      <p class="text-sm text-gray-500">{role}</p>
+    </div>
+  </div>
+  <div class="flex mb-3">
+    <span class="star">{stars.join('')}</span>
+  </div>
+  <p class="text-gray-600 italic">"{review}"</p>
+</div>
