@@ -1,106 +1,108 @@
 ---
-
-import RoomCard from './RoomCard.astro';
-
-const rooms = [
- 
+const pgs = [
   {
-    id: 'double-room-slider',
-    title: "👥 Double Sharing Room",
-    description: "Spacious room for two with individual beds, storage space, study area, and common bathroom facilities.",
-    originalPrice: "₹6,500",
-    discountedPrice: "₹6,000/month",
-    
+    id: "pg1",
+    name: "Shri Krishna Boy's PG",
+    description: "Clean and secure PG with a homely environment near Syndicate Circle, Manipal. Equipped with essential amenities for students.",
     images: [
-      "/images/ds1.webp",
-       "/images/ds2.webp",
-      
-    ]
+     "/images/OldPG/1.jpg",
+      "/images/OldPG/2.jpg",
+      "/images/OldPG/3.webp",
+      "/images/OldPG/4.webp",
+      "/images/OldPG/5.webp"
+    ],
+    link: "/pg/shrikrishna-boys-pg"
   },
   {
-    id: 'triple-room-slider',
-    title: "👥👥 Triple Sharing Room",
-    description: "Budget-friendly option with three beds, shared facilities, and study area. Perfect for students.",
-    originalPrice: "₹6,000",
-    discountedPrice: "₹5,550/month",
-
+    id: "pg2",
+    name: "New Shri Krishna PG",
+    description: "Affordable PG near Coin Circle, Manipal, offering comfortable rooms and a friendly atmosphere.",
     images: [
-       "/images/ts1.webp",
-
-         "/images/ts2.webp",
-    ]
-  },
-   {
-    id: 'single-room-slider',
-    title: "🛏️ Multiple Sharing Room",
-    description: "Budget-friendly option with Multiple beds, shared facilities, and study area. Perfect for students.",
-    originalPrice: "₹6,000",
-    discountedPrice: "₹5,000/month",
-   
-    images: [
-      "/images/ms1.webp",
-       "/images/ms2.webp",
-    ]
+      "/images/NewPG/1.jpg",
+      "/images/NewPG/2.jpg",
+      "/images/NewPG/3.jpg",
+      "/images/NewPG/4.jpg",
+      "/images/NewPG/5.jpg"
+    ],
+    link: "/pg/new-shri-krishna-pg"
   }
 ];
 ---
-
-<section id="rooms" class="py-16 px-4 max-w-6xl mx-auto">
-  <div class="text-center mb-12">
-    <h3 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Comfortable Rooms</h3>
-    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Choose from our variety of well-furnished rooms designed for your comfort and convenience</p>
+<section id="featured-pgs" class="py-12 px-4 max-w-6xl mx-auto">
+  <div class="text-center mb-10">
+    <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Discover Our PGs</h3>
+    <p class="text-gray-600 text-lg mb-6">Choose the perfect place to stay from our handpicked PGs.</p>
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-    {rooms.map(room => (
-      <RoomCard 
-        id={room.id}
-        title={room.title}
-        description={room.description}
-        originalPrice={room.originalPrice}
-        discountedPrice={room.discountedPrice}
-       
-        images={room.images}
-      />
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    {pgs.map((pg, index) => (
+      <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 animate-on-scroll">
+        <div class="absolute top-4 left-4 z-10 flex gap-2">
+          <span class="bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold px-3 py-1 rounded-full shadow-md">
+            PG-{index + 1}
+          </span>
+          
+        </div>
+        {/* Image Slider */}
+        <div
+          class="relative overflow-hidden rounded-lg h-48 mb-4"
+          data-slider-root
+          data-slider-id={`${pg.id}-slider`}
+          data-image-count={pg.images.length}
+        >
+          <div id={`${pg.id}-slider`} class="image-slider h-full w-full relative transition-all duration-700">
+            {pg.images.map((image, idx) => (
+              <img
+                src={image}
+                alt={`${pg.name} - Slide ${idx+1}`}
+                key={idx}
+                class={`w-full h-full object-cover absolute inset-0 transition-opacity duration-700${idx === 0 ? ' opacity-100' : ' opacity-0'}`}
+                style={`z-index: ${idx}; opacity:${idx === 0 ? "1" : "0"};`}
+                loading={idx === 0 ? "eager" : "lazy"}
+              />
+            ))}
+          </div>
+        </div>
+        {/* PG Info Below Image */}
+     <div>
+  <h4 class="font-semibold text-xl mb-2 text-gray-800">{pg.name}</h4>
+  <p class="text-gray-600 mb-4">{pg.description}</p>
+  
+  <div class="flex justify-between items-center">
+    <p class="text-sm text-red-600 font-medium">
+      * Click <strong>View Rooms</strong> to see location & price
+    </p>
+    <a href={pg.link}>
+      <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition-all transform hover:scale-105">
+        View Rooms
+      </button>
+    </a>
+  </div>
+</div>
+
+      </div>
     ))}
   </div>
 </section>
 
 <script is:inline>
-  // Image slider functionality
-  const sliderStates = {};
-
-  function initializeSlider(sliderId) {
-    if (!sliderStates[sliderId]) {
-      sliderStates[sliderId] = { currentIndex: 0 };
-    }
-  }
-
-  function nextImage(sliderId) {
-    initializeSlider(sliderId);
+document.addEventListener("DOMContentLoaded", function() {
+  // For each card slider, set up independent auto-advance.
+  document.querySelectorAll("[data-slider-root]").forEach(function(wrapper) {
+    const sliderId = wrapper.getAttribute('data-slider-id');
+    const imageCount = Number(wrapper.getAttribute('data-image-count'));
     const slider = document.getElementById(sliderId);
-    const images = slider.children;
-    const totalImages = images.length;
-    
-    sliderStates[sliderId].currentIndex = (sliderStates[sliderId].currentIndex + 1) % totalImages;
-    const translateX = -sliderStates[sliderId].currentIndex * 100;
-    slider.style.transform = `translateX(${translateX}%)`;
-  }
-
-  function previousImage(sliderId) {
-    initializeSlider(sliderId);
-    const slider = document.getElementById(sliderId);
-    const images = slider.children;
-    const totalImages = images.length;
-    
-    sliderStates[sliderId].currentIndex = (sliderStates[sliderId].currentIndex - 1 + totalImages) % totalImages;
-    const translateX = -sliderStates[sliderId].currentIndex * 100;
-    slider.style.transform = `translateX(${translateX}%)`;
-  }
-
-  // Auto-advance image sliders
-  setInterval(() => {
-    ['single-room-slider', 'double-room-slider', 'triple-room-slider'].forEach(sliderId => {
-      nextImage(sliderId);
-    });
-  }, 5000);
+    if (!slider) return;
+    let current = 0;
+    setInterval(() => {
+      const imgs = slider.querySelectorAll("img");
+      imgs.forEach((img, idx) => {
+        img.style.opacity = (idx === current) ? "1" : "0";
+      });
+      current = (current + 1) % imageCount;
+      imgs.forEach((img, idx) => {
+        img.style.transition = "opacity 0.7s";
+      });
+    }, 2000);
+  });
+});
 </script>

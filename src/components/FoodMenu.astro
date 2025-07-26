@@ -1,49 +1,282 @@
 ---
-
-
 const meals = [
   {
     name: "🌅 Breakfast",
-    items: "Dosa, Poori, Tea , Rice Items",
-    time: "Served: 7:00 AM - 10:00 AM",
-    image: "/images/break-fast.webp"
+    items: "Tiffin Provided",
+    time: "7:00 AM - 10:00 AM",
+    image: "/images/break-fast.webp",
+    type: "breakfast"
   },
   {
     name: "🍽️ Lunch",
-    items: "Rice, Dal, Seasonal Curry, Pickle, Papad",
-    time: "Served: 12:00 PM - 3:00 PM",
-    image: "/images/lunch.webp"
+    items: "Tiffin Provided",
+    time: "12:00 PM - 3:00 PM",
+    image: "/images/lunch.webp",
+    type: "lunch"
   },
   {
     name: "🌙 Dinner",
-    items: "Rice, Sabji, Dal, Papad, Pickle",
-    time: "Served: 7:00 PM - 9:00 PM",
-    image: "/images/dinner.webp"
+    items: "Tiffin Provided",
+    time: "7:00 PM - 10:00 PM",
+    image: "/images/dinner.webp",
+    type: "dinner"
   }
 ];
+
+const weeklyMenu = {
+  "Sunday": {
+    breakfast: "Poori with Veg Curry 🌱",
+    lunch: "Chicken Curry with Rice 🍗 + Veg Curry with Rice 🌱",
+    dinner: "Chicken Curry with Rice 🍗 + Veg Curry with Rice 🌱"
+  },
+  "Wednesday": {
+    breakfast: "Dosa with Chutney 🌱",
+    lunch: "Chicken Sambar Rice 🍗 + Veg Curry Rice 🌱",
+    dinner: "Chicken Sambar Rice 🍗 + Veg Curry Rice 🌱"
+  },
+  "Friday": {
+    breakfast: "Idli-Vada with Sambar 🌱",
+    dinner: "Boiled Eggs (1) 🍗 + Veg Curry with Rice 🌱"
+  },
+  "Other Days": {
+    breakfast: ["Dosa", "Veg Biriyani", "Poori", "Chithranna", "Pulav", "Rice Bath"],
+    lunch: "Rice + Seasonal Veg Curry + Dal + Papad + Pickle 🌱",
+    dinner: "Rice + Dal + Seasonal Veg Curry + Dal + Papad + Pickle 🌱"
+  }
+};
 ---
 
-<section id="food" class="py-16 px-4 gradient-bg">
-  <div class="text-center mb-12">
-    <h3 class="text-3xl md:text-4xl font-bold text-white mb-4">Delicious Food Menu</h3>
-    <p class="text-lg text-white max-w-2xl mx-auto">Enjoy homely, nutritious meals prepared with care and hygiene</p>
-  </div>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-    {meals.map((meal, index) => (
-      <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 animate-on-scroll">
-        <img 
-          src={meal.image} 
-          alt={meal.name}
-          width={400}
-          height={250}
-          class="w-full h-48 object-cover rounded-lg mb-4" 
-          formats={['avif', 'webp']}
-          loading={index === 0 ? 'eager' : 'lazy'}
-        />
-        <h4 class="font-semibold text-xl mb-2 text-gray-800">{meal.name}</h4>
-        <p class="text-gray-600">{meal.items}</p>
-        <p class="text-sm text-gray-500 mt-2">{meal.time}</p>
+<section id="food" class="py-16 px-4 bg-gradient-to-r from-blue-600 to-blue-800">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <div class="flex justify-center items-center gap-3 mb-4">
+        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+          <span class="text-lg">🌱</span> Veg
+        </span>
+        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+          <span class="text-lg">🍗</span> Non-Veg
+        </span>
       </div>
-    ))}
+      <h3 class="text-3xl md:text-4xl font-bold text-white mb-4">Delicious Food Menu</h3>
+      <p class="text-lg text-blue-100 max-w-2xl mx-auto">Enjoy homely, nutritious meals prepared with care and hygiene</p>
+    </div>
+
+    <!-- Meal Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {meals.map((meal, index) => (
+        <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 relative">
+          <img 
+            src={meal.image} 
+            alt={meal.name}
+            width={400}
+            height={250}
+            class="w-full h-48 object-cover rounded-lg mb-4" 
+            loading={index === 0 ? 'eager' : 'lazy'}
+          />
+          <h4 class="font-semibold text-xl mb-2 text-gray-800">{meal.name}</h4>
+          <p class="text-gray-600">{meal.items}</p>
+          <p class="text-sm text-gray-500 mt-2">Served: {meal.time}</p>
+          
+          <button 
+            onclick={`openMealModal('${meal.type}')`}
+            class="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
+          >
+            View {meal.name} Menu
+          </button>
+        </div>
+      ))}
+    </div>
   </div>
 </section>
+
+<!-- Meal Specific Modal -->
+<div id="mealModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 animate-fadeIn">
+  <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-white/20 animate-scaleIn">
+    <!-- Header -->
+    <div class="sticky top-0 bg-gradient-to-r from-blue-600 to-blue-700 p-5 rounded-t-2xl flex justify-between items-center">
+      <h3 id="mealModalTitle" class="text-2xl font-bold text-white">Meal Menu</h3>
+      <button 
+        onclick="closeMealModal()" 
+        class="text-white hover:text-blue-100 transition-colors p-1 rounded-full hover:bg-white/10"
+        aria-label="Close menu"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    
+    <div class="p-6">
+      <!-- Special Days -->
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="h-1 flex-1 bg-gradient-to-r from-blue-500 to-transparent"></div>
+          <h4 class="text-xl font-bold text-blue-700 whitespace-nowrap">Special Days</h4>
+          <div class="h-1 flex-1 bg-gradient-to-l from-blue-500 to-transparent"></div>
+        </div>
+        
+        <div class="grid gap-6" id="specialDaysMealContent">
+          <!-- Content will be inserted by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Regular Days -->
+      <div>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="h-1 flex-1 bg-gradient-to-r from-gray-400 to-transparent"></div>
+          <h4 class="text-xl font-bold text-gray-700 whitespace-nowrap">Regular Days</h4>
+          <div class="h-1 flex-1 bg-gradient-to-l from-gray-400 to-transparent"></div>
+        </div>
+        
+        <div class="bg-gray-50 rounded-xl p-5 border border-gray-200" id="regularDaysMealContent">
+          <!-- Content will be inserted by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="mt-8 pt-5 border-t border-gray-200 flex flex-wrap gap-4 justify-center">
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full">
+          <span class="text-green-600">🌱</span>
+          <span class="text-sm font-medium text-gray-700">Vegetarian</span>
+        </div>
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-red-50 rounded-full">
+          <span class="text-red-600">🍗</span>
+          <span class="text-sm font-medium text-gray-700">Non-Vegetarian</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+  
+  .animate-scaleIn {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes scaleIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+</style>
+
+<script is:inline>
+  // Store the weekly menu data in a format accessible to JS
+const weeklyMenuData = {
+  "Sunday": {
+    breakfast: "Poori with Veg Curry 🌱",
+    lunch: "Chicken Curry with Rice 🍗 + Veg Curry with Rice 🌱",
+    dinner: "Chicken Curry with Rice 🍗 + Veg Curry with Rice 🌱"
+  },
+  "Wednesday": {
+    breakfast: "Dosa with Chutney 🌱",
+    lunch: "Chicken Sambar Rice 🍗 + Veg Curry Rice 🌱",
+    dinner: "Chicken Sambar Rice 🍗 + Veg Curry Rice 🌱"
+  },
+  "Friday": {
+    breakfast: "Idli-Vada with Sambar 🌱",
+    dinner: "Boiled Eggs (1) 🍗 + Veg Curry with Rice 🌱"
+  },
+  "Other Days": {
+    breakfast: ["Dosa", "Veg Biriyani", "Poori", "Chithranna", "Pulav", "Rice Bath"],
+    lunch: "Rice + Seasonal Veg Curry + Dal + Papad + Pickle 🌱",
+    dinner: "Rice + Dal + Seasonal Veg Curry + Dal + Papad + Pickle 🌱"
+  }
+};
+
+  function openMealModal(mealType) {
+    const modal = document.getElementById('mealModal');
+    const title = document.getElementById('mealModalTitle');
+    const specialContent = document.getElementById('specialDaysMealContent');
+    const regularContent = document.getElementById('regularDaysMealContent');
+    
+    // Set modal title
+    title.textContent = `${mealType.charAt(0).toUpperCase() + mealType.slice(1)} Menu`;
+    
+    // Clear previous content
+    specialContent.innerHTML = '';
+    regularContent.innerHTML = '';
+    
+    // Add special days content
+    Object.entries(weeklyMenuData).filter(([day]) => day !== "Other Days").forEach(([day, meals]) => {
+      if (meals[mealType]) {
+        const dayElement = document.createElement('div');
+        dayElement.className = 'bg-gray-50 rounded-xl p-5 border border-gray-200 hover:border-blue-300 transition-all';
+        dayElement.innerHTML = `
+          <h5 class="font-bold text-lg text-gray-800 mb-3 flex items-center gap-2">
+            <span class="bg-blue-100 text-blue-800 p-2 rounded-lg w-10 h-10 flex items-center justify-center">
+              ${day.slice(0,1)}
+            </span>
+            ${day}
+          </h5>
+          <div class="pl-2">
+            <p class="text-gray-600">${meals[mealType]}</p>
+          </div>
+        `;
+        specialContent.appendChild(dayElement);
+      }
+    });
+    
+    // Add regular days content
+    if (mealType === 'breakfast') {
+      regularContent.innerHTML = `
+        <h5 class="font-semibold text-gray-800 flex items-center gap-2 mb-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
+          </svg>
+          Breakfast Options
+        </h5>
+        <ul class="list-disc list-inside text-gray-600 space-y-1">
+          ${weeklyMenuData["Other Days"].breakfast.map(item => `<li>${item} 🌱</li>`).join('')}
+        </ul>
+      `;
+    } else {
+      regularContent.innerHTML = `
+        <p class="text-gray-600">${weeklyMenuData["Other Days"][mealType]}</p>
+      `;
+    }
+    
+    // Show modal
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeMealModal() {
+    document.getElementById('mealModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }
+  
+  // Close modal when clicking outside content
+  document.getElementById('mealModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeMealModal();
+    }
+  });
+  
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !document.getElementById('mealModal').classList.contains('hidden')) {
+      closeMealModal();
+    }
+  });
+</script>
+
+<style>
+  @media (max-width: 640px) {
+    #mealModal .flex.items-start {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    #mealModal .w-24 {
+      width: auto;
+    }
+  }
+</style>

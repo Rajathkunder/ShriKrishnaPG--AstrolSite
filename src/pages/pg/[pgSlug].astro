@@ -1,0 +1,441 @@
+---
+export async function getStaticPaths() {
+  // List all valid slugs you support
+  return [
+    { params: { pgSlug: 'shrikrishna-boys-pg' } },
+    { params: { pgSlug: 'new-shri-krishna-pg' } }
+  ];
+}
+
+const pgData = {
+  "shrikrishna-boys-pg": {
+    pgName: "Shri Krishna Boy's PG",
+    pgDescription: "Clean and secure PG with a homely environment near Syndicate Circle, Manipal. Equipped with essential amenities for students.",
+    images: [
+      "/images/OldPG/1.jpg",
+      "/images/OldPG/2.jpg",
+      "/images/OldPG/3.webp",
+      "/images/OldPG/4.webp",
+      "/images/OldPG/5.webp"
+    ],
+    location: {
+      title: "Syndicate Circle Manipal",
+      description: "Central location with easy access to colleges and city hotspots. Ideal for students and professionals.",
+      details: [
+        "<strong>Near:</strong> Madhavakrupa School, Ananth Nagar",
+        "<strong>Area:</strong> Syndicate Circle, Manipal"
+      ],
+      mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3548.440384002977!2d74.78338087465808!3d13.346889887004087!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbca52f602fbeef%3A0xac785b637e8abb22!2sShri%20Krishna%20Boys%20PG!5e1!3m2!1sen!2sin!4v1753518230967!5m2!1sen!2sin"
+    },
+    rooms: [
+      {
+        id: 'double-room-slider',
+        title: "Double Sharing Room",
+        description: "Spacious and airy for two students, with private beds and personal storage. Attached washroom and study table.",
+        originalPrice: "6,500",
+        discountedPrice: "6,000/month",
+        images: ["/images/OldPG/1.jpg","/images/OldPG/2.jpg"]
+      },
+      {
+        id: 'three-room-slider',
+        title: "Three Sharing Room",
+        description: "Maximum privacy. Large room with a comfy bed, ample storage, and dedicated study/reading space. Ideal for focused academics.",
+        originalPrice: "₹6,000",
+        discountedPrice: "₹5,500/month",
+        images: ["/images/OldPG/3.webp","/images/OldPG/4.webp"]
+      },
+      {
+        id: 'Multi-room-slider',
+        title: "Four Sharing Room",
+        description: "Spacious and comfortable shared accommodation designed for four residents. Each bed comes with individual storage, personal study space, and privacy partitions. The room is well-ventilated, furnished with essential amenities.",
+        originalPrice: "₹6,000",
+        discountedPrice: "₹5,000/month",
+        images: ["/images/OldPG/5.webp","/images/OldPG/1.jpg"]
+      }
+    ]
+  },
+  "new-shri-krishna-pg": {
+    pgName: "New Shri Krishna PG",
+    pgDescription: "Affordable PG near Coin Circle, Manipal, offering comfortable rooms and a friendly atmosphere.",
+    images: [
+      "/images/NewPG/1.jpg",
+      "/images/NewPG/2.jpg",
+      "/images/NewPG/3.jpg",
+      "/images/NewPG/4.jpg",
+      "/images/NewPG/5.jpg"
+    ],
+    location: {
+      title: "Coin Circle Manipal",
+      description: "Strategically located for quick commutes and social accessibility. Perfect for campus life.",
+      details: [
+        "<strong>Near:</strong> Perampalli Nekkar Krishnadasa Marga, Vidyaratna Nagar",
+        "<strong>Area:</strong> Coin Circle, Manipal"
+      ],
+      mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d508.02249890540355!2d74.78415531064394!3d13.359531958644471!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbca35469508483%3A0xef0895852c2a7ffd!2sPlanet%20Caf%C3%A9!5e0!3m2!1sen!2sin!4v1753517613408!5m2!1sen!2sin"
+    },
+    rooms: [
+      {
+        id: 'double-room-slider',
+        title: "Double Sharing Room",
+        description: "Spacious and airy for two students, with private beds and personal storage. Attached washroom and study table.",
+        originalPrice: "7,500",
+        discountedPrice: "7,000/month",
+        images: ["/images/NewPG/1.jpg","/images/NewPG/2.jpg"]
+      },
+      {
+        id: 'triple-room-slider',
+        title: "Triple Sharing Room",
+        description: "Best for those who love company. Three beds with individual closets and desk space. Bright and lively environment.",
+        originalPrice: "₹7,500",
+        discountedPrice: "₹6,500/month",
+        images: ["/images/NewPG/3.jpg","/images/NewPG/4.jpg"]
+      },
+      {
+        id: 'multi-room-slider',
+        title: "Four Sharing Room",
+        description: "Budget option for group stay—shared facilities but with enough room for everyone. Popular among freshers.",
+        originalPrice: "₹6,500",
+        discountedPrice: "₹6,000/month",
+        images: ["/images/NewPG/5.jpg","/images/NewPG/2.jpg"]
+      }
+    ]
+  }
+};
+
+const pgSlug = Astro.params.pgSlug;
+const pg = pgData[pgSlug];
+const rooms = pg?.rooms || [];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{pg?.pgName || 'PG Details'}</title>
+</head>
+
+<body class="min-h-screen bg-gray-50">
+  <!-- Loading Spinner Overlay (Full Screen) -->
+  <div id="loading-overlay" class="fixed inset-0 bg-white flex items-center justify-center z-50 transition-opacity duration-500">
+    <div class="loader ease-linear rounded-full border-4 sm:border-8 border-t-4 sm:border-t-8 border-gray-200 h-12 w-12 sm:h-16 sm:w-16"></div>
+  </div>
+
+  <!-- Page Content -->
+  {pg ? (
+  <section class="min-h-screen bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 lg:pt-8 pb-6">
+      <!-- Back Button -->
+      <div class="mb-4 sm:mb-6">
+        <button onclick="history.back()" class="inline-flex items-center gap-2 px-4 py-2 sm:px-4 sm:py-2 bg-white hover:bg-gray-50 text-gray-700 rounded-lg transition-all duration-200 text-sm sm:text-base shadow-sm hover:shadow-md border border-gray-200 w-full sm:w-auto">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          <span class="font-medium">Back</span>
+        </button>
+      </div>
+
+      <!-- Header Section -->
+      <div class="text-center mb-6 sm:mb-8 lg:mb-10">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-700 mb-3 sm:mb-4 animate-fadeInDown leading-tight px-2">
+          {pg.pgName}
+        </h1>
+        <p class="text-sm sm:text-base lg:text-lg text-gray-600 animate-fadeIn px-4 max-w-3xl mx-auto leading-relaxed">
+          {pg.pgDescription}
+        </p>
+      </div>
+
+      <!-- Rooms & Pricing Section -->
+      <div class="mb-8 sm:mb-10 lg:mb-12">
+        <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 animate-fadeIn text-center sm:text-left">
+        Rooms & Pricing
+        </h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+          {rooms.map(room => (
+            <div class="relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 animate-popIn overflow-hidden border border-gray-100">
+              <!-- Discount Badge -->
+              {Number(room.originalPrice.replace(/\D/g,'')) > Number(room.discountedPrice.replace(/\D/g,'')) && (
+                <div class="absolute top-0 right-0 bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-1 text-xs font-bold rounded-bl-xl z-10 shadow-lg">
+                  Save ₹{Number(room.originalPrice.replace(/\D/g,'')) - Number(room.discountedPrice.replace(/\D/g,''))}!
+                </div>
+              )}
+              
+              <div class="p-4 sm:p-6 lg:p-7">
+                <h4 class="font-bold text-lg sm:text-xl text-blue-700 mb-2 sm:mb-3">{room.title}</h4>
+                <p class="text-gray-600 text-sm sm:text-base mb-4 leading-relaxed">{room.description}</p>
+                
+                <!-- Pricing -->
+                <div class="flex items-center justify-center gap-3 mb-4 sm:mb-5 p-3 bg-gray-50 rounded-lg">
+                  <span class="line-through text-gray-400 text-sm sm:text-base">{room.originalPrice}</span>
+                  <span class="text-xl sm:text-2xl font-bold text-green-600">{room.discountedPrice}</span>
+                </div>
+                
+                <!-- Room Images -->
+                <div class="flex gap-2 sm:gap-3 justify-center">
+                  {room.images.map((image, idx) => (
+                    <img 
+                      src={image} 
+                      alt={`${room.title} image ${idx + 1}`} 
+                      class="w-20 h-16 sm:w-24 sm:h-20 rounded-lg object-cover cursor-pointer room-image-thumb border-2 border-gray-200 hover:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105" 
+                      data-img={image}
+                      loading="lazy"
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Gallery Section -->
+      <div class="mb-8 sm:mb-10 lg:mb-12">
+        <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 animate-fadeIn text-center sm:text-left">
+          Gallery
+        </h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4">
+          {pg.images.map((galleryImg, idx) => (
+            <div class="relative group overflow-hidden rounded-lg sm:rounded-xl shadow-md hover:shadow-lg transition-all duration-300 aspect-square">
+              <img 
+                src={galleryImg} 
+                alt={`${pg.pgName} image ${idx+1}`} 
+                class="object-cover w-full h-full cursor-pointer gallery-thumb transition-transform duration-300 group-hover:scale-110" 
+                data-gallery={galleryImg}
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                <svg class="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                </svg>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Location Section -->
+      <div class="mb-8 sm:mb-10">
+        <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 animate-fadeIn text-center sm:text-left">
+          Location
+        </h2>
+        <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100">
+          <h4 class="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600 mb-3 sm:mb-4">{pg.location.title}</h4>
+          <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4 leading-relaxed">{pg.location.description}</p>
+          
+          <div class="text-sm sm:text-base text-gray-500 mb-4 sm:mb-6 space-y-1 sm:space-y-2">
+            {pg.location.details.map(detail => (
+              <p set:html={detail} class="leading-relaxed" />
+            ))}
+          </div>
+          
+          <div class="rounded-xl sm:rounded-2xl overflow-hidden h-64 sm:h-80 w-full shadow-lg border border-gray-200">
+            <iframe 
+              src={pg.location.mapSrc}
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              allowfullscreen=""
+              loading="lazy" 
+              aria-label={`Map of ${pg.location.title}`}
+              class="w-full h-full"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="img-modal-bg" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center transition-opacity p-4">
+      <span id="img-modal-close" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-white text-3xl sm:text-4xl cursor-pointer font-bold transition-transform hover:scale-125 z-10 bg-black bg-opacity-50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center">
+        &times;
+      </span>
+      <img id="img-modal" src="" alt="Large gallery view" class="max-h-[85vh] max-w-[95vw] sm:max-h-[90vh] sm:max-w-[90vw] rounded-lg sm:rounded-xl shadow-2xl border-2 sm:border-4 border-white transition-transform animate-zoomIn object-contain"/>
+    </div>
+  </section>
+  ) : (
+    <section class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div class="text-center">
+        <div class="text-6xl sm:text-8xl mb-4"></div>
+        <h1 class="text-xl sm:text-2xl font-bold text-red-500 mb-2">PG Not Found</h1>
+        <p class="text-gray-600 text-sm sm:text-base">Sorry, the PG details you're looking for could not be found.</p>
+        <button onclick="history.back()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto">
+          Go Back
+        </button>
+      </div>
+    </section>
+  )}
+
+  <!-- Scripts -->
+  <script is:inline>
+  // Loading overlay
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      const overlay = document.getElementById('loading-overlay');
+      if (overlay) {
+        overlay.style.opacity = "0";
+        setTimeout(() => {
+          overlay.style.display = "none";
+        }, 500);
+      }
+    }, 800);
+  });
+
+  // Image modal functionality
+  document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById("img-modal");
+    const modalBg = document.getElementById("img-modal-bg");
+    const closeBtn = document.getElementById("img-modal-close");
+    
+    if (modal && modalBg && closeBtn) {
+      // Open modal
+      document.querySelectorAll(".gallery-thumb, .room-image-thumb").forEach(el => {
+        el.addEventListener("click", (e) => {
+          const imgSrc = el.dataset.gallery || el.dataset.img;
+          if (imgSrc) {
+            modal.src = imgSrc;
+            modalBg.classList.remove("hidden");
+            document.body.style.overflow = 'hidden';
+          }
+        });
+      });
+      
+      // Close modal
+      const closeModal = () => {
+        modalBg.classList.add("hidden");
+        modal.src = "";
+        document.body.style.overflow = 'auto';
+      };
+      
+      closeBtn.addEventListener("click", closeModal);
+      modalBg.addEventListener("click", (e) => {
+        if (e.target === modalBg) closeModal();
+      });
+      
+      // Close on Escape key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !modalBg.classList.contains("hidden")) {
+          closeModal();
+        }
+      });
+    }
+  });
+  </script>
+
+  <!-- Styles -->
+  <style>
+    /* Loading spinner */
+    .loader {
+      border-top-color: #3b82f6;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Animations */
+    .animate-fadeInDown { 
+      animation: fadeInDown 0.8s cubic-bezier(0.4, 0, 0.2, 1); 
+    }
+    
+    @keyframes fadeInDown { 
+      from { opacity: 0; transform: translateY(-20px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
+    
+    .animate-fadeIn { 
+      animation: fadeIn 0.9s 0.2s cubic-bezier(0.4, 0, 0.2, 1) both; 
+    }
+    
+    @keyframes fadeIn { 
+      from { opacity: 0; } 
+      to { opacity: 1; } 
+    }
+    
+    .animate-popIn { 
+      animation: popIn 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes popIn { 
+      0% { transform: scale(0.9); opacity: 0; } 
+      50% { transform: scale(1.02); } 
+      100% { transform: scale(1); opacity: 1; } 
+    }
+    
+    .animate-zoomIn { 
+      animation: zoomIn 0.3s ease-out; 
+    }
+    
+    @keyframes zoomIn { 
+      from { transform: scale(0.8); opacity: 0; } 
+      to { transform: scale(1); opacity: 1; } 
+    }
+    
+    /* Mobile optimizations */
+    @media (max-width: 640px) {
+      #img-modal { 
+        max-height: 80vh; 
+        border-width: 2px;
+      }
+      
+      .room-image-thumb {
+        min-width: 60px;
+        min-height: 60px;
+      }
+      
+      .max-w-6xl.mx-auto {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      
+      .grid-cols-1.lg\\:grid-cols-2 {
+        gap: 1rem;
+      }
+      
+      .grid-cols-2.sm\\:grid-cols-3 {
+        gap: 0.5rem;
+      }
+      
+      .text-2xl.sm\\:text-3xl {
+        font-size: 1.5rem;
+        line-height: 2rem;
+      }
+      
+      .text-sm.sm\\:text-base {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+      }
+      
+      .h-64.sm\\:h-80 {
+        height: 300px;
+      }
+    }
+    
+    /* Touch targets for mobile */
+    @media (pointer: coarse) {
+      button, .room-image-thumb, .gallery-thumb {
+        min-width: 48px;
+        min-height: 48px;
+      }
+    }
+    
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Prevent horizontal overflow */
+    body {
+      overflow-x: hidden;
+    }
+    
+    /* Focus styles for accessibility */
+    button:focus,
+    .room-image-thumb:focus,
+    .gallery-thumb:focus {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+  </style>
+</body>
+</html>
